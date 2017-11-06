@@ -9,7 +9,3 @@ form {
     padding: 20px;
     box-sizing: border-box;
 }
-mat-progress-bar {
-    max-width: 340px;
-    margin: 0 auto;
-}

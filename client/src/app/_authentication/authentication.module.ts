@@ -7,10 +7,14 @@ import { AuthenticationService } from './authentication.service'
 import { LoginComponent } from './login/login.component';
 import { MaterialModule } from '../_custom_modules/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AuthCookieHandlerService } from './auth-cookie-handler.service';
+import { RegisterComponent } from './register/register.component';
+
 
 @NgModule({
   declarations: [
-    LoginComponent
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     CommonModule,
@@ -20,7 +24,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HttpClientModule
   ],
   providers: [
-    AuthenticationService
+    AuthenticationService,
+    AuthCookieHandlerService
   ]
 })
 export class AuthenticationModule { }

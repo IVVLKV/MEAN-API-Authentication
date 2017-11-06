@@ -1,21 +1,23 @@
-<form (ngSubmit)="login()" [formGroup]="loginForm" novalidate>
-  
+<div class="container">
+  <form (ngSubmit)="login()" [formGroup]="loginForm" novalidate>
+      <h3>Login</h3>
       <div>
         <mat-icon>email</mat-icon>
         <mat-form-field>
           <input matInput placeholder="Email" formControlName="email">
         </mat-form-field>
       </div>    
-  
+
       <div>
           <mat-icon>lock</mat-icon>
           <mat-form-field>
             <input matInput placeholder="Password" formControlName="password">
           </mat-form-field>
       </div>
-  
+
       <div>
         <button mat-raised-button color="primary" type="submit">Login</button>
       </div>
-  
   </form>
+  <mat-progress-bar *ngIf="loadingProgress()" mode="indeterminate"></mat-progress-bar>
+</div>

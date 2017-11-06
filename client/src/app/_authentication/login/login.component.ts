@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from '../authentication.service';
 import { FormGroup, FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
+
+import { AuthenticationService } from '../authentication.service';
 
 @Component({
   selector: 'app-login',
@@ -10,31 +10,30 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  userData = {}
-
   loginForm = new FormGroup ({
     email: new FormControl(),
     password: new FormControl()
   });
 
-  constructor(private authenticationService: AuthenticationService, private router: Router) { }
+  loading: boolean = false;
+
+  constructor(private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
+    if(this.authenticationService.getUsername()) {
+      this.authenticationService.logout()
+    } 
   }
 
   login() {
-    this.authenticationService.login(this.loginForm.value)
-      .subscribe(
-        data => {
-          if (data) {
-              localStorage.setItem('currentUser', JSON.stringify(data));
-              console.log('Success:' + JSON.stringify(data))
-              this.router.navigate(['/home']);
-          }
-        },
-        error => {
-          console.log(error)
-        });
+      this.loading = true;
+      this.authenticationService.login(this.loginForm.value)
   }
+
+  loadingProgress() {
+      return this.loading;
+  }
+
+  
 
 }

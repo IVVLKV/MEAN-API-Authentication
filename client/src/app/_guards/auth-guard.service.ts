@@ -1,17 +1,30 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AuthenticationService } from '../_authentication/authentication.service';
+import { AuthCookieHandlerService } from '../_authentication/auth-cookie-handler.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
 
-    constructor(private router: Router) { }
+    constructor(private authenticationService: AuthenticationService, private router: Router, private http: HttpClient, private authCookie: AuthCookieHandlerService) { }
+
+    userToken: string;
 
     canActivate() {
-        if (localStorage.getItem('currentUser')) {
-            return true;
-        }
+        let authenticate = this.getUserToken()
 
-        this.router.navigate(['/login']);
-        return false;
+        if (authenticate) {
+            return true
+        } else {
+            return false
+        }
     }
+
+    getUserToken() {
+        let userToken = JSON.parse(this.authCookie.getAuth())
+        return userToken.auth
+    }
+
+
 }

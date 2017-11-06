@@ -24,35 +24,16 @@ router.post('/register', (req, res) => {
     // var token = jwt.sign({ id: user._id }, config.secret, {
     //   expiresIn: 86400 // expires in 24 hours
     // })
-    res.status(200).send('Registration successful')
+    res.status(200).send(JSON.stringify({ reg: true, user: user.name }))
   })
 })
 
-// router.get('/me', (req, res) => {
-//   var token = req.headers['x-access-token']
-//   if (!token) {
-//     return res.status(401).send({ auth: false, message: 'No token provided.' })
-//   } else {
-//     jwt.verify(token, config.secret, (err, decoded) => {
-//       if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' })
-
-//       // res.status(200).send(decoded)
-
-//       User.findById(decoded.id, { password: 0, __v: 0 }, (err, user) => {
-//         if (err) return res.status(500).send('There was a problem finding the user.')
-//         if (!user) return res.status(404).send('No user found.')
-//         res.status(200).send(user)
-//       })
-//     })
-//   }
-// })
-
-router.get('/me', VerifyToken, (req, res, next) => {
-  User.findById(req.userId, { password: 0, '__v': 0 }, (err, user) => {
-    if (err) return res.status(500).send('There was a problem finding the user.')
-    if (!user) return res.status(404).send('No user found.')
-    res.status(200).send(user)
-  })
+router.get('/user-status', VerifyToken, (req, res) => {
+  let content = {
+    success: true,
+    status: 'Verified'
+  }
+  res.status(200).send(content)
 })
 
 router.use(function (user, req, res, next) {
@@ -68,7 +49,7 @@ router.post('/login', (req, res) => {
     var token = jwt.sign({ id: user._id }, config.secret, {
       expiresIn: 86400 // expires in 24 hours
     })
-    res.status(200).send(JSON.stringify({ auth: true, token: token }))
+    res.status(200).send(JSON.stringify({ auth: true, token: token, user: user.name }))
   })
 })
 
